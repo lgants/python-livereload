@@ -149,9 +149,13 @@ class ForceReloadHandler(web.RequestHandler):
 
 
 class StaticFileHandler(web.StaticFileHandler):
+    def should_return_304(self):
+        return False
+
+
+class NoCacheStaticFileHandler(web.StaticFileHandler):
     def set_extra_headers(self, path):
-        # Disable cache
         self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
-        
+
     def should_return_304(self):
         return False

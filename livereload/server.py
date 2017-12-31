@@ -25,7 +25,7 @@ from tornado import escape
 from tornado import httputil
 from tornado.log import LogFormatter
 from .handlers import LiveReloadHandler, LiveReloadJSHandler
-from .handlers import ForceReloadHandler, StaticFileHandler
+from .handlers import ForceReloadHandler, NoCacheStaticFileHandler
 from .watcher import get_watcher_class
 from six import string_types, PY3
 
@@ -264,7 +264,7 @@ class Server(object):
             fallback = LiveScriptContainer(self.app, script)
             return [(r'.*', web.FallbackHandler, {'fallback': fallback})]
         return [
-            (r'/(.*)', StaticFileHandler, {
+            (r'/(.*)', NoCacheStaticFileHandler, {
                 'path': self.root or '.',
                 'default_filename': 'index.html',
             }),
